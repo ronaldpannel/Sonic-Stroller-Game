@@ -8,6 +8,7 @@ body {
   overflow: hidden;
 }
 
+
 .canvas1 {
   position: absolute;
   top: 50%;
@@ -20,3 +21,4 @@ body {
 .assets {
   display: none;
 }
+

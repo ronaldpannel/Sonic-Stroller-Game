@@ -71,8 +71,11 @@ class Sonic {
       this.frameY = 1;
     }
   }
+
   jump() {
-    this.vel += -12;
+    this.vel += -10;
     this.gravity = 0.2;
+    jumpSound.currentTime = 0
+    jumpSound.play()
   }
 }
