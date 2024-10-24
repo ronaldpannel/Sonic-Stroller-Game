@@ -1,21 +1,21 @@
-class Sonic {
-  constructor(game) {
+class Ring {
+  constructor(game, x, y) {
     this.game = game;
 
     this.scaler = 0.1;
-    this.x = 150;
-    this.y = 345;
+    this.x = x;
+    this.y = y;
     this.width = this.game.height * this.scaler;
     this.height = this.game.height * this.scaler;
     this.vel = 0;
     this.acc = 0;
     this.gravity = 0;
     this.isGrounded = false;
-    this.image = document.getElementById("sonicImg");
-    this.spriteWidth = 32;
-    this.spriteHeight = 44;
+    this.image = document.getElementById("ringImg");
+    this.spriteWidth = 17;
+    this.spriteHeight = 16;
     this.frameRate = 0;
-    this.maxFrames = 8;
+    this.maxFrames = 16;
     this.frameX = 0;
     this.frameY = 0;
   }
@@ -31,31 +31,17 @@ class Sonic {
       this.width,
       this.height
     );
+
     if (this.game.debug) {
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "yellow";
-      ctx.strokeRect(this.x, this.y * 1, this.width, this.height);
+      ctx.rect(this.x, this.y * 1, this.width, this.height);
       ctx.stroke();
     }
   }
   update() {
-    if (this.y + this.height >= 345) {
-      this.isGrounded = true;
-    } else {
-      this.isGrounded = false;
-    }
-    this.vel += this.gravity;
-    this.y += this.vel;
-    if (this.y >= 345) {
-      this.gravity = 0.5;
-      this.vel = 0;
-      this.y = 345;
-      this.gravity = 0;
-    }
-
-    this.width = this.game.height * this.scaler;
-    this.height = this.game.height * this.scaler;
+    this.x -= this.game.gameSpeed * 2.5;
 
     this.frameRate++;
     this.frameX++;
@@ -65,14 +51,5 @@ class Sonic {
         this.frameX = 0;
       }
     }
-    if (this.isGrounded) {
-      this.frameY = 0;
-    } else {
-      this.frameY = 1;
-    }
-  }
-  jump() {
-    this.vel += -12;
-    this.gravity = 0.2;
   }
 }
