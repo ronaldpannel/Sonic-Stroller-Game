@@ -41,7 +41,7 @@ class MotoBot {
     } 
   }
   update() {
-    this.x -= this.game.gameSpeed * 3.5;
+    this.x -= this.game.gameSpeed * 2.2;
 
     this.frameRate++;
     this.frameX++;

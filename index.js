@@ -31,7 +31,7 @@ window.addEventListener("load", () => {
       this.resetBtn = document.getElementById("resetBtn");
 
       this.bg = new Bg(this, cityBg, 1, 60);
-      this.bg1 = new Bg(this, platformImg, 2, 0);
+      this.bg1 = new Bg(this, platformImg, 1.5, 0);
       this.sonic = new Sonic(this);
 
       window.addEventListener("keydown", (e) => {
@@ -72,8 +72,8 @@ window.addEventListener("load", () => {
       this.width = width;
       this.height = height;
       setInterval(() => {
-        this.gameSpeed += 0.05;
-      }, 5000);
+        this.gameSpeed += 0.1;
+      }, 3000);
     }
     createMotoBots() {
       if (this.frameRate % 300 == 0) {
@@ -83,7 +83,7 @@ window.addEventListener("load", () => {
       }
     }
     createRings() {
-      if (this.frameRate % randomIntFromRange(100, 700) == 0) {
+      if (this.frameRate % randomIntFromRange(50, 700) == 0) {
         let x = this.width + 50;
         let y = 320;
         this.ringsArray.push(new Ring(this, x, y));
