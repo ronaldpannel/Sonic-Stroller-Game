@@ -11,6 +11,7 @@ window.addEventListener("load", () => {
   const jumpSound = document.getElementById("Jump.wav");
   const destroySound = document.getElementById("destroySound");
   const hurtSound = document.getElementById("hurtSound");
+  const citySound = document.getElementById("citySound");
 
   class Game {
     constructor(width, height) {
@@ -22,8 +23,8 @@ window.addEventListener("load", () => {
       this.ringsArray = [];
       this.debug = false;
       this.score = 0;
-      this.gameOver = false
-      this.startBtn = document.getElementById('startBtn')
+      this.gameOver = false;
+      this.startBtn = document.getElementById("startBtn");
 
       this.bg = new Bg(this, cityBg, 1, 60);
       this.bg1 = new Bg(this, platformImg, 2, 0);
@@ -40,9 +41,12 @@ window.addEventListener("load", () => {
           this.sonic.jump();
         }
       });
-      this.startBtn.addEventListener('click', () => {
-        location.reload()
-      })
+      this.startBtn.addEventListener("click", () => {
+        location.reload();
+      });
+      window.addEventListener("mousedown", () => {
+        this.sonic.jump();
+      });
 
       window.addEventListener("resize", (e) => {
         let width = e.currentTarget.innerWidth;
@@ -84,13 +88,24 @@ window.addEventListener("load", () => {
     displayScore(ctx) {
       ctx.font = "30px Aerial";
       ctx.fillStyle = "white";
-      ctx.fillText(`SCORE:-  ${this.score}`, 50, 50);
-      if(this.gameOver){
-         ctx.font = "60px Aerial";
-         ctx.textBaseline = 'middle'
-         ctx.textAlign = 'center'
-          ctx.fillText(`GAME OVER your score is:-  ${this.score}`, this.width * 0.5, this.height * 0.5 - 100);
+      ctx.textBaseline = "middle";
+      ctx.textAlign = "center";
+      ctx.fillText(`SCORE:-  ${this.score}`, 100, 50);
 
+      ctx.fillText(
+        "Press Arr0w Up or Click Mouse to Jump",
+        this.width * 0.5,
+        50
+      );
+      if (this.gameOver) {
+        ctx.font = "60px Aerial";
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+        ctx.fillText(
+          `GAME OVER your score is:-  ${this.score}`,
+          this.width * 0.5,
+          this.height * 0.5 - 100
+        );
       }
     }
     render(ctx) {
@@ -127,6 +142,7 @@ window.addEventListener("load", () => {
         let b = this.ringsArray[i];
         if (this.collision(this.sonic, b)) {
           ringSound.currentTime = 0;
+          ringSound.volume = 0.1;
           ringSound.play();
           this.score++;
           this.ringsArray.splice(i, 1);
@@ -137,13 +153,13 @@ window.addEventListener("load", () => {
         let b = this.motoBotArray[i];
         if (this.collision(this.sonic, b)) {
           if (this.sonic.isGrounded) {
-            this.startBtn.classList.add('btnActive');
+            this.startBtn.classList.add("btnActive");
             hurtSound.currentTime = 0;
+            hurtSound.volume = 0.5;
             hurtSound.play();
             setTimeout(() => {
-               this.gameOver = true;
+              this.gameOver = true;
             }, 100);
-           
           }
           if (
             this.sonic.y + this.sonic.height >= b.y &&
@@ -155,13 +171,20 @@ window.addEventListener("load", () => {
             this.sonic.jump();
             this.score += 10;
             destroySound.currentTime = 0;
+            destroySound.volume = 0.3;
             destroySound.play();
             this.motoBotArray.splice(i, 1);
           }
         }
       }
+      if (!this.gameOver) {
+        citySound.volume = 0.3
+        citySound.play();
+        citySound.loop = true;
+      }else{
+        citySound.pause()
+      }
     }
-    
   }
 
   const game = new Game(canvas.width, canvas.height);
@@ -170,9 +193,9 @@ window.addEventListener("load", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.render(ctx);
     animations = requestAnimationFrame(animate);
-if(game.gameOver){
-  cancelAnimationFrame(animations)
-}
+    if (game.gameOver) {
+      cancelAnimationFrame(animations);
+    }
   }
   animate();
 

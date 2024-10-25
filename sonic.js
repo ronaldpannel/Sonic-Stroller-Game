@@ -76,6 +76,7 @@ class Sonic {
     this.vel += -8;
     this.gravity = 0.2;
     jumpSound.currentTime = 0
+    jumpSound.volume = 0.1;
     jumpSound.play()
   }
 }
