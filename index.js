@@ -73,17 +73,17 @@ window.addEventListener("load", () => {
       this.height = height;
       setInterval(() => {
         this.gameSpeed += 0.05;
-      }, 3000);
+      }, 5000);
     }
     createMotoBots() {
-      if (this.frameRate % randomIntFromRange(200, 600) == 0) {
+      if (this.frameRate % 300 == 0) {
         let x = this.width + 50;
         let y = 345;
         this.motoBotArray.push(new MotoBot(this, x, y));
       }
     }
     createRings() {
-      if (this.frameRate % randomIntFromRange(50, 200) == 0) {
+      if (this.frameRate % randomIntFromRange(100, 700) == 0) {
         let x = this.width + 50;
         let y = 320;
         this.ringsArray.push(new Ring(this, x, y));
@@ -111,7 +111,7 @@ window.addEventListener("load", () => {
         this.width * 0.5,
         50
       );
-      ctx.fillText(`HIGH SCORE:- ${this.highestScore}`, 1300, 50);
+      ctx.fillText(`HIGH SCORE:- ${this.highestScore}`, 1280, 50);
       if (this.gameOver) {
         ctx.font = "60px Aerial";
         ctx.textBaseline = "middle";
@@ -121,6 +121,21 @@ window.addEventListener("load", () => {
           this.width * 0.5,
           this.height * 0.5 - 100
         );
+      }
+    }
+    showHitScore(ctx) {
+      if (!this.sonic.isGrounded && this.sonic.isHitting) {
+        ctx.fillStyle = "yellow";
+        ctx.font = "30px Aerial";
+        ctx.fillText(" +10", this.sonic.x, this.sonic.y);
+      }
+    }
+
+    showCoinScore(ctx) {
+      if (this.sonic.isHittingCoin) {
+        ctx.fillStyle = "yellow";
+        ctx.font = "30px Aerial";
+        ctx.fillText(" +1", this.sonic.x, this.sonic.y);
       }
     }
     setHighestScore() {
@@ -153,6 +168,8 @@ window.addEventListener("load", () => {
       }
       this.displayScore(ctx);
       this.setHighestScore();
+      this.showHitScore(ctx);
+      this.showCoinScore(ctx);
 
       for (let i = this.ringsArray.length - 1; i > 0; i--) {
         this.ringsArray[i].draw(ctx);
@@ -165,11 +182,15 @@ window.addEventListener("load", () => {
       for (let i = 0; i < this.ringsArray.length; i++) {
         let b = this.ringsArray[i];
         if (this.collision(this.sonic, b)) {
+          this.sonic.isHittingCoin = true;
           ringSound.currentTime = 0;
           ringSound.volume = 0.1;
           ringSound.play();
           this.score++;
           this.ringsArray.splice(i, 1);
+          setTimeout(() => {
+            this.sonic.isHittingCoin = false;
+          }, 800);
         }
       }
       //sonic motoBot collision
@@ -195,10 +216,14 @@ window.addEventListener("load", () => {
             this.sonic.jump();
             this.sonic.jump();
             this.score += 10;
+            this.sonic.isHitting = true;
             destroySound.currentTime = 0;
             destroySound.volume = 0.3;
             destroySound.play();
             this.motoBotArray.splice(i, 1);
+            setTimeout(() => {
+              this.sonic.isHitting = false;
+            }, 800);
           }
         }
       }
@@ -208,6 +233,13 @@ window.addEventListener("load", () => {
         citySound.loop = true;
       } else {
         citySound.pause();
+      }
+
+      if (!this.sonic.isGrounded) {
+        this.bg.y += 0.5;
+        setTimeout(() => {
+          this.bg.y -= 0.5;
+        }, 250);
       }
     }
   }

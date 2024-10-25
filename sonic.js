@@ -11,6 +11,8 @@ class Sonic {
     this.acc = 0;
     this.gravity = 0;
     this.isGrounded = false;
+    this.isHitting = false
+    this.isHittingCoin = false
     this.image = document.getElementById("sonicImg");
     this.spriteWidth = 32;
     this.spriteHeight = 44;
