@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
     constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.gameSpeed = 1;
+      this.gameSpeed = 2;
       this.frameRate = 0;
       this.motoBotArray = [];
       this.ringsArray = [];
@@ -72,8 +72,8 @@ window.addEventListener("load", () => {
       this.width = width;
       this.height = height;
       setInterval(() => {
-        this.gameSpeed += 0.1;
-      }, 3000);
+        this.gameSpeed += 0.5;
+      }, 4000);
     }
     createMotoBots() {
       if (this.frameRate % 300 == 0) {
@@ -107,7 +107,7 @@ window.addEventListener("load", () => {
       ctx.fillText(`SCORE:-  ${this.score}`, 100, 50);
 
       ctx.fillText(
-        "Press Arr0w Up or Click Mouse to Jump",
+        "Press Arrow Up or Click Mouse to Jump",
         this.width * 0.5,
         50
       );
