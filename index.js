@@ -22,6 +22,8 @@ window.addEventListener("load", () => {
       this.ringsArray = [];
       this.debug = false;
       this.score = 0;
+      this.gameOver = false
+      this.startBtn = document.getElementById('startBtn')
 
       this.bg = new Bg(this, cityBg, 1, 60);
       this.bg1 = new Bg(this, platformImg, 2, 0);
@@ -38,6 +40,9 @@ window.addEventListener("load", () => {
           this.sonic.jump();
         }
       });
+      this.startBtn.addEventListener('click', () => {
+        location.reload()
+      })
 
       window.addEventListener("resize", (e) => {
         let width = e.currentTarget.innerWidth;
@@ -53,14 +58,14 @@ window.addEventListener("load", () => {
       this.height = height;
     }
     createMotoBots() {
-      if (this.frameRate % Math.floor(Math.random() * 1000 + 1) == 0) {
+      if (this.frameRate % randomIntFromRange(200, 600) == 0) {
         let x = this.width + 50;
         let y = 345;
         this.motoBotArray.push(new MotoBot(this, x, y));
       }
     }
     createRings() {
-      if (this.frameRate % Math.floor(Math.random() * 1000 + 1) == 0) {
+      if (this.frameRate % randomIntFromRange(50, 200) == 0) {
         let x = this.width + 50;
         let y = 320;
         this.ringsArray.push(new Ring(this, x, y));
@@ -80,6 +85,13 @@ window.addEventListener("load", () => {
       ctx.font = "30px Aerial";
       ctx.fillStyle = "white";
       ctx.fillText(`SCORE:-  ${this.score}`, 50, 50);
+      if(this.gameOver){
+         ctx.font = "60px Aerial";
+         ctx.textBaseline = 'middle'
+         ctx.textAlign = 'center'
+          ctx.fillText(`GAME OVER your score is:-  ${this.score}`, this.width * 0.5, this.height * 0.5 - 100);
+
+      }
     }
     render(ctx) {
       this.createMotoBots();
@@ -125,8 +137,13 @@ window.addEventListener("load", () => {
         let b = this.motoBotArray[i];
         if (this.collision(this.sonic, b)) {
           if (this.sonic.isGrounded) {
-            // hurtSound.currentTime = 0;
+            this.startBtn.classList.add('btnActive');
+            hurtSound.currentTime = 0;
             hurtSound.play();
+            setTimeout(() => {
+               this.gameOver = true;
+            }, 100);
+           
           }
           if (
             this.sonic.y + this.sonic.height >= b.y &&
@@ -144,6 +161,7 @@ window.addEventListener("load", () => {
         }
       }
     }
+    
   }
 
   const game = new Game(canvas.width, canvas.height);
@@ -151,7 +169,10 @@ window.addEventListener("load", () => {
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     game.render(ctx);
-    requestAnimationFrame(animate);
+    animations = requestAnimationFrame(animate);
+if(game.gameOver){
+  cancelAnimationFrame(animations)
+}
   }
   animate();
 
