@@ -36,9 +36,9 @@ class MotoBot {
       ctx.beginPath();
       ctx.lineWidth = 2;
       ctx.strokeStyle = "yellow";
-      ctx.rect(this.x, this.y * 1, this.width, this.height);
+      ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
-    }
+    } 
   }
   update() {
     this.x -= this.game.gameSpeed * 2.5;

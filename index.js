@@ -125,18 +125,19 @@ window.addEventListener("load", () => {
         let b = this.motoBotArray[i];
         if (this.collision(this.sonic, b)) {
           if (this.sonic.isGrounded) {
-            // hurtSound.currentTime = 0
+            // hurtSound.currentTime = 0;
             hurtSound.play();
           }
           if (
-            // this.sonic.y + this.sonic.height >= b.y &&
-            // this.sonic.x < b.x + b.width &&
-            // this.sonic.x + this.sonic.width > b.x &&
+            this.sonic.y + this.sonic.height >= b.y &&
+            this.sonic.x < b.x + b.width &&
+            this.sonic.x + this.sonic.width > b.x &&
             !this.sonic.isGrounded
           ) {
             this.sonic.jump();
+            this.sonic.jump();
             this.score += 10;
-            // destroySound.currentTime = 0;
+            destroySound.currentTime = 0;
             destroySound.play();
             this.motoBotArray.splice(i, 1);
           }
