@@ -129,9 +129,9 @@ window.addEventListener("load", () => {
             hurtSound.play();
           }
           if (
-            this.sonic.y + this.sonic.height >= b.y &&
-            this.sonic.x < b.x + b.width &&
-            this.sonic.x + this.sonic.width > b.x &&
+            // this.sonic.y + this.sonic.height >= b.y &&
+            // this.sonic.x < b.x + b.width &&
+            // this.sonic.x + this.sonic.width > b.x &&
             !this.sonic.isGrounded
           ) {
             this.sonic.jump();
