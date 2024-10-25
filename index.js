@@ -23,8 +23,12 @@ window.addEventListener("load", () => {
       this.ringsArray = [];
       this.debug = false;
       this.score = 0;
+      this.highestScore = localStorage.getItem("sonicHighScore") || 0;
+      this.hsScore;
+
       this.gameOver = false;
       this.startBtn = document.getElementById("startBtn");
+      this.resetBtn = document.getElementById("resetBtn");
 
       this.bg = new Bg(this, cityBg, 1, 60);
       this.bg1 = new Bg(this, platformImg, 2, 0);
@@ -41,11 +45,18 @@ window.addEventListener("load", () => {
           this.sonic.jump();
         }
       });
+      this.resetBtn.addEventListener("click", () => {
+        location.reload();
+        localStorage.setItem("sonicHighScore", 0);
+      });
+
       this.startBtn.addEventListener("click", () => {
         location.reload();
       });
       window.addEventListener("mousedown", () => {
-        this.sonic.jump();
+        if (this.sonic.isGrounded) {
+          this.sonic.jump();
+        }
       });
 
       window.addEventListener("resize", (e) => {
@@ -60,6 +71,9 @@ window.addEventListener("load", () => {
       canvas.height = height;
       this.width = width;
       this.height = height;
+      setInterval(() => {
+        this.gameSpeed += 0.05;
+      }, 3000);
     }
     createMotoBots() {
       if (this.frameRate % randomIntFromRange(200, 600) == 0) {
@@ -97,6 +111,7 @@ window.addEventListener("load", () => {
         this.width * 0.5,
         50
       );
+      ctx.fillText(`HIGH SCORE:- ${this.highestScore}`, 1300, 50);
       if (this.gameOver) {
         ctx.font = "60px Aerial";
         ctx.textBaseline = "middle";
@@ -108,6 +123,14 @@ window.addEventListener("load", () => {
         );
       }
     }
+    setHighestScore() {
+      if (this.score > localStorage.getItem("sonicHighScore")) {
+        localStorage.setItem("sonicHighScore", this.score);
+        this.hsScore = localStorage.getItem("sonicHighScore");
+        this.highestScore = this.hsScore;
+      }
+    }
+
     render(ctx) {
       this.createMotoBots();
       this.createRings();
@@ -129,6 +152,7 @@ window.addEventListener("load", () => {
         }
       }
       this.displayScore(ctx);
+      this.setHighestScore();
 
       for (let i = this.ringsArray.length - 1; i > 0; i--) {
         this.ringsArray[i].draw(ctx);
@@ -154,6 +178,7 @@ window.addEventListener("load", () => {
         if (this.collision(this.sonic, b)) {
           if (this.sonic.isGrounded) {
             this.startBtn.classList.add("btnActive");
+            this.resetBtn.classList.add("btnActive");
             hurtSound.currentTime = 0;
             hurtSound.volume = 0.5;
             hurtSound.play();
@@ -178,11 +203,11 @@ window.addEventListener("load", () => {
         }
       }
       if (!this.gameOver) {
-        citySound.volume = 0.3
+        citySound.volume = 0.3;
         citySound.play();
         citySound.loop = true;
-      }else{
-        citySound.pause()
+      } else {
+        citySound.pause();
       }
     }
   }

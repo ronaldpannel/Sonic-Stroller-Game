@@ -24,8 +24,8 @@ body {
 button {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 35%;
+  transform: translate(-50%, -35%);
   font-size: 20px;
   padding: 10px 10px;
   outline: none;
@@ -39,7 +39,31 @@ button {
   display: none;
 }
 button:hover {
-  scale: 1i;
+  scale: 1.1;
+  background-color: red;
+  color: yellow;
+  border-color: yellow;
+
+}
+.resetBtn {
+  position: absolute;
+  top: 51%;
+  left: 58%;
+  transform: translate(-51%, -58%);
+  font-size: 20px;
+  padding: 10px 10px;
+  outline: none;
+  border: 2px red solid;
+  border-radius: 10px;
+  background-color: yellow;
+  color: red;
+  cursor: pointer;
+  scale: 1;
+  transition: all 200ms ease-in;
+  display: none;
+}
+.resetBtn:hover {
+  scale: 1.1;
   background-color: red;
   color: yellow;
   border-color: yellow;
@@ -47,3 +71,4 @@ button:hover {
 .btnActive {
   display: block;
 }
+
