@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
     constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.gameSpeed = 1
+      this.gameSpeed = 1;
       this.frameRate = 0;
       this.motoBotArray = [];
       this.ringsArray = [];
@@ -72,8 +72,8 @@ window.addEventListener("load", () => {
       this.width = width;
       this.height = height;
       setInterval(() => {
-        this.gameSpeed += 0.5;
-      }, 4000);
+        this.gameSpeed += 0.1;
+      }, 3000);
     }
     createMotoBots() {
       if (this.frameRate % 300 == 0) {
@@ -107,7 +107,7 @@ window.addEventListener("load", () => {
       ctx.fillText(`SCORE:-  ${this.score}`, 100, 50);
 
       ctx.fillText(
-        "Press Arrow Up or Click Mouse to Jump",
+        "Touch Jump Button To Make Sonic Jump",
         this.width * 0.5,
         50
       );
@@ -204,7 +204,7 @@ window.addEventListener("load", () => {
             hurtSound.volume = 0.5;
             hurtSound.play();
             setTimeout(() => {
-            this.gameOver = true;
+              this.gameOver = true;
             }, 100);
           }
           if (
