@@ -17,7 +17,7 @@ window.addEventListener("load", () => {
     constructor(width, height) {
       this.width = width;
       this.height = height;
-      this.gameSpeed = 2;
+      this.gameSpeed = 1
       this.frameRate = 0;
       this.motoBotArray = [];
       this.ringsArray = [];
@@ -204,7 +204,7 @@ window.addEventListener("load", () => {
             hurtSound.volume = 0.5;
             hurtSound.play();
             setTimeout(() => {
-              this.gameOver = true;
+            this.gameOver = true;
             }, 100);
           }
           if (
