@@ -15,9 +15,12 @@ class MotoBot {
     this.spriteWidth = 48;
     this.spriteHeight = 30;
     this.frameRate = 0;
-    this.maxFrames = 5;
+    this.maxFrames = 4;
     this.frameX = 0;
     this.frameY = 0;
+    this.fps = 10 * this.game.gameSpeed;
+    this.frameInterval = 1000 / this.fps;
+    this.frameTimer = 0;
   }
   draw(ctx) {
     ctx.drawImage(
@@ -38,18 +41,29 @@ class MotoBot {
       ctx.strokeStyle = "yellow";
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.stroke();
-    } 
-  }
-  update() {
-    this.x -= this.game.gameSpeed * 2.2;
-
-    this.frameRate++;
-    this.frameX++;
-
-    if (this.frameRate % 1 == 0) {
-      if (this.frameX >= this.maxFrames) {
-        this.frameX = 0;
-      }
     }
+  }
+  update(deltaTime) {
+    this.x -= this.game.gameSpeed * 2.4;
+
+    // this.frameRate++;
+    // this.frameX++;
+
+     if (this.frameTimer > this.frameInterval) {
+       this.frameTimer = 0;
+       if (this.frameX < this.maxFrames) {
+         this.frameX++;
+       } else {
+         this.frameX = 0;
+       }
+     } else {
+       this.frameTimer += deltaTime;
+     }
+
+    // if (this.frameRate % 1 == 0) {
+    //   if (this.frameX >= this.maxFrames) {
+    //     this.frameX = 0;
+    //   }
+    // }
   }
 }

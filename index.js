@@ -72,8 +72,8 @@ window.addEventListener("load", () => {
       this.width = width;
       this.height = height;
       setInterval(() => {
-        this.gameSpeed += 0.1;
-      }, 3000);
+        this.gameSpeed += 0.2;
+      }, 5000);
     }
     createMotoBots() {
       if (this.frameRate % 300 == 0) {
@@ -107,7 +107,7 @@ window.addEventListener("load", () => {
       ctx.fillText(`SCORE:-  ${this.score}`, 100, 50);
 
       ctx.fillText(
-        "Touch Jump Button To Make Sonic Jump",
+        "Press Arrow Up or Click Mouse to Jump",
         this.width * 0.5,
         50
       );
@@ -146,7 +146,7 @@ window.addEventListener("load", () => {
       }
     }
 
-    render(ctx) {
+    render(ctx, deltaTime) {
       this.createMotoBots();
       this.createRings();
       this.frameRate++;
@@ -157,11 +157,11 @@ window.addEventListener("load", () => {
       this.bg1.update();
 
       this.sonic.draw(ctx);
-      this.sonic.update();
+      this.sonic.update(deltaTime);
 
       for (let i = this.motoBotArray.length - 1; i > 0; i--) {
         this.motoBotArray[i].draw(ctx);
-        this.motoBotArray[i].update();
+        this.motoBotArray[i].update(deltaTime);
         if (this.motoBotArray[i].x < 0) {
           this.motoBotArray.splice(i, 1);
         }
@@ -173,7 +173,7 @@ window.addEventListener("load", () => {
 
       for (let i = this.ringsArray.length - 1; i > 0; i--) {
         this.ringsArray[i].draw(ctx);
-        this.ringsArray[i].update();
+        this.ringsArray[i].update(deltaTime);
         if (this.ringsArray[i].x < 0) {
           this.ringsArray.splice(i, 1);
         }
@@ -245,16 +245,19 @@ window.addEventListener("load", () => {
   }
 
   const game = new Game(canvas.width, canvas.height);
-
-  function animate() {
+  let lastTime = 0;
+  function animate(timeStamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    game.render(ctx);
+    let deltaTime = timeStamp - lastTime;
+    lastTime = timeStamp;
+
+    game.render(ctx, deltaTime);
     animations = requestAnimationFrame(animate);
     if (game.gameOver) {
       cancelAnimationFrame(animations);
     }
   }
-  animate();
+  animate(0);
 
   //end of load
 });

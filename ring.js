@@ -15,9 +15,12 @@ class Ring {
     this.spriteWidth = 17;
     this.spriteHeight = 16;
     this.frameRate = 0;
-    this.maxFrames = 16;
+    this.maxFrames = 15;
     this.frameX = 0;
     this.frameY = 0;
+    this.fps = 60 * this.game.gameSpeed;
+    this.frameInterval = 1000 / this.fps;
+    this.frameTimer = 0;
   }
   draw(ctx) {
     ctx.drawImage(
@@ -40,16 +43,18 @@ class Ring {
       ctx.stroke();
     }
   }
-  update() {
+  update(deltaTime) {
     this.x -= this.game.gameSpeed * 2;
 
-    this.frameRate++;
-    this.frameX++;
-
-    if (this.frameRate % 1 == 0) {
-      if (this.frameX >= this.maxFrames) {
+    if (this.frameTimer > this.frameInterval) {
+      this.frameTimer = 0;
+      if (this.frameX < this.maxFrames) {
+        this.frameX++;
+      } else {
         this.frameX = 0;
       }
+    } else {
+      this.frameTimer += deltaTime;
     }
   }
 }
